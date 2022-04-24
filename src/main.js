@@ -5,4 +5,5 @@ let config = {
     scene: [Menu, Shop, Play]
 }
 
+let keyUP, keyDOWN, keyLEFT, keyRIGHT, keyCONFIRM, keyJUMP, keyCANCEL, keyPAUSE;
 let game = new Phaser.Game(config);
