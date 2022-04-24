@@ -14,7 +14,7 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
         }
         //if we aren't standing on a floor just yet, but our projected
         //next position would cause us to fall through the floor in front
-        else if(((this.y + (this.vSpeed / 4)) < this.floorUnderHeight) && (this.y > this.floorUnderHeight) && this.vSpeed < 0){
+        else if(((this.y + (this.vSpeed / 8)) < this.floorUnderHeight) && (this.y > this.floorUnderHeight) && this.vSpeed < 0){
             this.y = this.floorUnderHeight; //snap us to the floor's height
             this.vSpeed = 0;
             return true;
@@ -30,7 +30,7 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
                 this.vSpeed = this.terminalV;
             }
             if(keyUP.isDown){
-                this.vSpeed -= 3; //gravity is 3x as weak if we're holding jump
+                this.vSpeed -= 3; //gravity is 40% weaker if we're holding jump
                 this.terminalV = -72; //and terminal velocity is 75% as fast
             }
             else{
