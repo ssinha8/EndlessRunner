@@ -1,8 +1,8 @@
 let config = {
     type: Phaser.AUTO,
-    width: 640,
-    height: 480,
-    scene: [Menu, Shop, Play]//TODO: Add "play" and "shop" scenes to this
+    width: 960, //TODO: finalize width/height
+    height: 540, // and see if we can fix the bug that doubles the size
+    scene: [Menu, Shop, Play]
 }
 
 let game = new Phaser.Game(config);
