@@ -17,7 +17,6 @@ class Play extends Phaser.Scene {
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     
-    this.player = new rabbitPlayer(this, 40, 40, 'placeholder', 0).setOrigin(0,0);
 
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
@@ -26,6 +25,8 @@ class Play extends Phaser.Scene {
     for(var i = 0; i < numPlatforms; i++){
       this.platforms[i] = new Platform(this, game.config.width + 32 * i, 350, 'placeholder', 0).setOrigin(0,0);
     }
+
+    this.player = new rabbitPlayer(this, 80, 400, 'placeholder', 0).setOrigin(0,0);
 
   }
   
