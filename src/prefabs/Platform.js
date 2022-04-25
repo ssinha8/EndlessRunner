@@ -10,11 +10,11 @@ class Platform extends Phaser.GameObjects.Sprite{
         this.x -= this.moveSpeed;
 
         if (this.x <= 0-this.width) {
-            this.x = game.config.width + Phaser.Math.Between(0, 100);
+            this.reset();
         }
     }
   
     reset(){
-        //TODO: finish
+        this.x = game.config.width;
     }
   }

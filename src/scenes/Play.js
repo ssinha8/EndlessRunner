@@ -20,17 +20,21 @@ class Play extends Phaser.Scene {
     this.player = new rabbitPlayer(this, 40, 40, 'placeholder', 0).setOrigin(0,0);
 
     //TODO: adjust values of x and y for better gameplay
-    this.platform1 = new Platform(this, game.config.width + 100, 250, 'platform', 0).setOrigin(0,0);
-    this.platform2 = new Platform(this, game.config.width + 300, 300, 'platform', 0).setOrigin(0,0);
-    this.platform3 = new Platform(this, game.config.width + 500, 350, 'platform', 0).setOrigin(0,0);
+    //editing this to use an array.
+    let numPlatforms = 5
+    this.platforms = [numPlatforms];
+    for(var i = 0; i < numPlatforms; i++){
+      this.platforms[i] = new Platform(this, game.config.width + 32 * i, 350, 'placeholder', 0).setOrigin(0,0);
+    }
 
   }
   
   // Does nothing right now
   update() {
     this.player.update();
-    this.platform1.update();
-    this.platform2.update();
-    this.platform3.update();
+    
+    for(var i in this.platforms) {
+      this.platforms[i].update();
+    }
   }
 }

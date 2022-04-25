@@ -4,18 +4,21 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         this.terminalV = -24
         this.vSpeed = 0;
-        this.floorUnderHeight = 400;
+        this.platBackUnderHeight = 400;
+        this.platFrontUnderHeight = 400;
+        this.groundUnderSelf = 400;
+
     }
 
-    checkAndSnapFloor() {
+    checkAndSnapGround() {
         //if we're already standing on a floor
-        if(this.y == this.floorUnderHeight){
+        if(this.y == this.groundUnderSelf){
             return true;
         }
         //if we aren't standing on a floor just yet, but our projected
         //next position would cause us to fall through the floor in front
-        else if(((this.y + (this.vSpeed / 8)) < this.floorUnderHeight) && (this.y > this.floorUnderHeight) && this.vSpeed < 0){
-            this.y = this.floorUnderHeight; //snap us to the floor's height
+        else if(((this.y + (this.vSpeed / 8)) < this.groundUnderSelf) && (this.y > this.groundUnderSelf) && this.vSpeed < 0){
+            this.y = this.groundUnderSelf; //snap us to the floor's height
             this.vSpeed = 0;
             return true;
         }
@@ -25,7 +28,7 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
     }
 
     update(){
-        if (!this.checkAndSnapFloor()) {
+        if (!this.checkAndSnapGround()) {
             if(this.vSpeed < this.terminalV){
                 this.vSpeed = this.terminalV;
             }
