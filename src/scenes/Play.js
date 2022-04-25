@@ -28,7 +28,9 @@ class Play extends Phaser.Scene {
     }
 
     this.player = new rabbitPlayer(this, 40, 40, 'placeholder', 0).setOrigin(0,0);
-    this.spaceship = new Spaceship(this, game.config.width, game.config.height - 50, 'spaceship', 0).setOrigin(0,0);
+    this.spaceship = new Spaceship(this, game.config.width, game.config.height, 'spaceship', 0, false).setOrigin(0,0);
+
+    this.spawnSpaceship = false;
 
     // Set up timer
     // I used addEvent because I couldn't figure out how to loop with delayedCall
@@ -36,6 +38,20 @@ class Play extends Phaser.Scene {
 
     this.clock = this.time.addEvent({delay: 200, callback: () => {
       this.distance++;}, callbackScope: this, loop: true});
+
+    this.spaceshipCheck  = this.time.addEvent({delay: 2400, callback: () => {
+
+      if (!this.spaceship.spawn) {
+        let willSpawn = Phaser.Math.Between(0, 100);
+
+        if (willSpawn <= this.spaceship.spawnRate) {
+          this.spaceship.spawn = true;
+          this.spaceship.y =  Phaser.Math.RND.pick(this.spaceship.yCoordinates);
+          this.spaceship.update();
+        }
+      }
+    }, callbackScope: this, loop: true});
+
   
     // Timer style
     let distanceConfig = {
@@ -52,6 +68,10 @@ class Play extends Phaser.Scene {
   // Does nothing right now
   update() {
     this.player.update();
+
+    if (this.spaceship.spawn) {
+      this.spaceship.update();
+    }
     
     for(var i in this.platforms) {
       this.platforms[i].update();
