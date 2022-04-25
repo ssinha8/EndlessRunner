@@ -4,21 +4,21 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         this.terminalV = -24
         this.vSpeed = 0;
-        this.platBackUnderHeight = 400;
-        this.platFrontUnderHeight = 400;
+        this.platUnderBackHeight = 400;
+        this.platUnderFrontHeight = 400;
         this.groundUnderSelf = 400;
 
     }
 
     checkAndSnapGround() {
-        //if we're already standing on a floor
+        //if we're already on the ground
         if(this.y == this.groundUnderSelf){
             return true;
         }
-        //if we aren't standing on a floor just yet, but our projected
-        //next position would cause us to fall through the floor in front
+        //if we aren't standing on the ground just yet, but our projected
+        //next position would cause us to fall through the ground
         else if(((this.y + (this.vSpeed / 8)) < this.groundUnderSelf) && (this.y > this.groundUnderSelf) && this.vSpeed < 0){
-            this.y = this.groundUnderSelf; //snap us to the floor's height
+            this.y = this.groundUnderSelf; //snap us to the ground's height
             this.vSpeed = 0;
             return true;
         }
@@ -27,8 +27,33 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
         }
     }
 
+    checkAndSnapPlatforms() {
+                //if we're already on a plat
+        if(this.y == this.platUnderBackHeight || this.y == this.platUnderFrontHeight){
+            return true;
+        }
+        //if we aren't standing on a plat just yet, but our projected
+        //next position would cause us to fall through the plat in front
+        else if(((this.y + (this.vSpeed / 4)) < this.platUnderFrontHeight) && (this.y > this.platUnderFrontHeight) && this.vSpeed < 0){
+            this.y = this.platUnderFrontHeight; //snap us to that plat's height
+            this.vSpeed = 0;
+            return true;
+        }
+        //if we aren't standing on a plat just yet, but our projected
+        //next position would cause us to fall through the plat in back
+        else if(((this.y + (this.vSpeed / 4)) < this.platUnderBackHeight) && (this.y > this.platUnderBackHeight) && this.vSpeed < 0){
+            this.y = this.platUnderBackHeight; //snap us to that plat's height
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     update(){
-        if (!this.checkAndSnapGround()) {
+        this.isOnPlat = this.checkAndSnapPlatforms();
+        this.isOnGround = this.checkAndSnapGround();
+        if (!this.isOnPlat && !this.isOnGround) {
             if(this.vSpeed < this.terminalV){
                 this.vSpeed = this.terminalV;
             }
