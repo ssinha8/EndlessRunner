@@ -44,7 +44,7 @@ class Play extends Phaser.Scene {
     }, callbackScope: this, loop: true});
 
     this.spaceshipCheck  = this.time.addEvent({delay: 3000, callback: () => {
-      console.log(this.spaceship.spawnRate);
+    //  console.log(this.spaceship.spawnRate);
 
       if (!this.spaceship.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
@@ -69,8 +69,6 @@ class Play extends Phaser.Scene {
   }
 
   
-  
-  // Does nothing right now
   update() {
     this.player.update();
 
