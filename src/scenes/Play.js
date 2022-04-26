@@ -36,10 +36,15 @@ class Play extends Phaser.Scene {
     // I used addEvent because I couldn't figure out how to loop with delayedCall
    this.distance = 0;
 
-    this.clock = this.time.addEvent({delay: 200, callback: () => {
-      this.distance++;}, callbackScope: this, loop: true});
+    this.clock = this.time.addEvent({delay: 100, callback: () => {
+      this.distance++;
+      if (this.spaceship.checkpoints.includes(this.distance)) {
+        this.spaceship.spawnRate += 5;
+      }
+    }, callbackScope: this, loop: true});
 
-    this.spaceshipCheck  = this.time.addEvent({delay: 2400, callback: () => {
+    this.spaceshipCheck  = this.time.addEvent({delay: 3000, callback: () => {
+      console.log(this.spaceship.spawnRate);
 
       if (!this.spaceship.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
