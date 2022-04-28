@@ -15,6 +15,11 @@ class Play extends Phaser.Scene {
 
   // Does nothing right now
   create() {
+    this.groundVisual = this.add.tileSprite(0, 400, 7019, 334, 'groundmain').setOrigin(0, 0);
+    this.groundVisual.scaleY = 140/334;
+    this.groundVisual.scaleX = 140/334;
+
+
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -30,9 +35,9 @@ class Play extends Phaser.Scene {
       this.platforms[i].setScale(128/1299);
     }
 
-    this.groundVisual = this.add.tileSprite(0, 400, 7019, 334, 'groundMain').setOrigin(0, 0);
+    
 
-    this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,0);
+    this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
     this.spaceship = new Spaceship(this, game.config.width, game.config.height, 'spaceship', 0, false).setOrigin(0,0);
@@ -77,6 +82,7 @@ class Play extends Phaser.Scene {
 
   
   update() {
+    this.groundVisual.tilePositionX += 3*334/140;
     this.player.update();
 
     if (this.spaceship.spawn) {

@@ -11,7 +11,7 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
     }
 
     setPlatFrontHeight(value){
-        this.platUnderFrontHeight = value;
+        this.platUnderFrontHeight = value
     }
 
     setPlatBackHeight(value){
