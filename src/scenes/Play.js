@@ -6,7 +6,7 @@ class Play extends Phaser.Scene {
   // Eventually load sprites and spritesheets (animation)
   preload() {
     this.load.image('placeholder', './assets/placeholder.png');
-    this.load.image('platform', './assets/platform.png');
+    this.load.image('platform', './assets/platform2.png');
     this.load.image('spaceship', './assets/spaceship_placeholder.png');
 
   }
@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
     let numPlatforms = 5
     this.platforms = [numPlatforms];
     for(var i = 0; i < numPlatforms; i++){
-      this.platforms[i] = new Platform(this, game.config.width + 32 * i, 350, 'placeholder', 0).setOrigin(0,0);
+      this.platforms[i] = new Platform(this, game.config.width + 32 * i, 350, 'platform', 0).setOrigin(0,0);
     }
 
     this.player = new rabbitPlayer(this, 40, 40, 'placeholder', 0).setOrigin(0,0);
