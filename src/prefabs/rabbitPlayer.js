@@ -10,6 +10,18 @@ class rabbitPlayer extends Phaser.GameObjects.Sprite{
 
     }
 
+    setPlatFrontHeight(value){
+        this.platUnderFrontHeight = value;
+    }
+
+    setPlatBackHeight(value){
+        this.platUnderFrontHeight = value;
+    }
+
+    setGround(value){
+        this.groundUnderSelf = value;
+    }
+
     checkAndSnapGround() {
         //if we're already on the ground
         if(this.y == this.groundUnderSelf){
