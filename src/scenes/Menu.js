@@ -23,8 +23,8 @@ class Menu extends Phaser.Scene {
     play.setInteractive();
     play.on('pointerdown', () => {this.scene.start('playScene')});
 
-    const shop = this.add.text((game.config.width/2)-60, 200, "Shop", menuStyle);
-    shop.setInteractive();
+  //  const shop = this.add.text((game.config.width/2)-60, 200, "Shop", menuStyle);
+  //  shop.setInteractive();
    // shop.on('pointerdown', () => {this.scene.start('shopScene')});
 
     const highScores = this.add.text((game.config.width/2)-60, 250, "High Scores", menuStyle);
@@ -41,7 +41,7 @@ class Menu extends Phaser.Scene {
 
 
   update() {
-  //  this.scene.start('playScene');
+    this.scene.start('playScene');
 
   }
 }

@@ -10,22 +10,38 @@ class Play extends Phaser.Scene {
     this.load.image('spaceship', './assets/spaceship_placeholder.png');
     this.load.image('player', './assets/spacebnnuy.png');
     this.load.image('groundmain', './assets/bg1.png');
+    this.load.image('stars', './assets/bg.png');
+    this.load.image('hills', './assets/bg3.png');
+    this.load.image('spikeyHills', './assets/bg2.png');
 
   }
 
   // Does nothing right now
   create() {
-    this.groundVisual = this.add.tileSprite(0, 400, 7019, 334, 'groundmain').setOrigin(0, 0);
-    this.groundVisual.scaleY = 140/334;
-    this.groundVisual.scaleX = 140/334;
-
 
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
     
+    // Star background
+    this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars').setOrigin(0, 0);
+    this.starBackground.scaleX = .22;
+    this.starBackground.scaleY = .21;
 
+    // Hills
+    this.hills = this.add.tileSprite(0, (game.config.height/2) - 7, 0, 0, 'hills').setOrigin(0, 0);
+    this.hills.setScale(.22);
+
+    // Backgound area with spikes
+    this.spikeHill = this.add.tileSprite(0, (game.config.height/2) - 65, 0, 0, 'spikeyHills').setOrigin(0,0);
+    this.spikeHill.setScale(.215);
+
+    // Ground
+    this.groundVisual = this.add.tileSprite(0, 400, 7019, 334, 'groundmain').setOrigin(0, 0);
+    this.groundVisual.scaleY = 140/334;
+    this.groundVisual.scaleX = 140/334;
+    
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
     let numPlatforms = 5
