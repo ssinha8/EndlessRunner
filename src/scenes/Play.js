@@ -23,25 +23,44 @@ class Play extends Phaser.Scene {
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-    
+
+    // Parallax Scrolling Code:
+    // Background Object Array
+    this.backgrounds = [];
+
     // Star background
-    this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars').setOrigin(0, 0);
-    this.starBackground.scaleX = .22;
-    this.starBackground.scaleY = .21;
+    this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars')
+      .setOrigin(0, 0)
+      .setScale(.22)
+      .setScrollFactor(0);
 
     // Hills
-    this.hills = this.add.tileSprite(0, (game.config.height/2) - 7, 0, 0, 'hills').setOrigin(0, 0);
-    this.hills.setScale(.22);
+    this.backgrounds.push({
+			ratioX: 0.1,
+			sprite: this.add.tileSprite(0, (game.config.height/2) - 2, 0, 0, 'hills')
+        .setOrigin(0, 0)
+        .setScale(.22)
+        .setScrollFactor(0)
+		});
 
     // Backgound area with spikes
-    this.spikeHill = this.add.tileSprite(0, (game.config.height/2) - 65, 0, 0, 'spikeyHills').setOrigin(0,0);
-    this.spikeHill.setScale(.215);
+    this.backgrounds.push({
+			ratioX: 0.5,
+			sprite: this.add.tileSprite(0, (game.config.height/2) - 65, 0, 0, 'spikeyHills')
+        .setOrigin(0,0)
+        .setScale(.215)
+        .setScrollFactor(0)
+		});
 
     // Ground
-    this.groundVisual = this.add.tileSprite(0, 400, 7019, 334, 'groundmain').setOrigin(0, 0);
-    this.groundVisual.scaleY = 140/334;
-    this.groundVisual.scaleX = 140/334;
-    
+    this.backgrounds.push({
+			ratioX: 1,
+			sprite: this.add.tileSprite(0, 400, 7019, 334, 'groundmain')
+        .setOrigin(0, 0)
+        .setScale(140/334)
+        .setScrollFactor(0)
+		});
+
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
     let numPlatforms = 5
@@ -50,8 +69,6 @@ class Play extends Phaser.Scene {
       this.platforms[i] = new Platform(this, game.config.width + 128 * i, 350, 'platform', 0).setOrigin(0,0);
       this.platforms[i].setScale(128/1299);
     }
-
-    
 
     this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
@@ -72,8 +89,6 @@ class Play extends Phaser.Scene {
     }, callbackScope: this, loop: true});
 
     this.spaceshipCheck  = this.time.addEvent({delay: 3000, callback: () => {
-    //  console.log(this.spaceship.spawnRate);
-
       if (!this.spaceship.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
 
@@ -98,7 +113,8 @@ class Play extends Phaser.Scene {
 
   
   update() {
-    this.groundVisual.tilePositionX += 3*334/140;
+    this.camera = this.cameras.main;
+    const speed = 6;
     this.player.update();
 
     if (this.spaceship.spawn) {
@@ -110,5 +126,14 @@ class Play extends Phaser.Scene {
     }
 
     this.displayDistance.text = this.distance + " M";
+
+    // Parallax scrolling
+    this.camera.scrollX += speed;
+    this.player.x += speed;
+
+    for (let i = 0; i < this.backgrounds.length; i++) {
+      const bg = this.backgrounds[i];
+      bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
+    }
   }
 }
