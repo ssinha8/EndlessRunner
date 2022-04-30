@@ -18,6 +18,8 @@ class Play extends Phaser.Scene {
 
   // Does nothing right now
   create() {
+    this.gameOver = false;
+    this.camera = this.cameras.main;
 
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -27,6 +29,7 @@ class Play extends Phaser.Scene {
     // Parallax Scrolling Code:
     // Background Object Array
     this.backgrounds = [];
+    this.speed = 6;
 
     // Star background
     this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars')
@@ -73,8 +76,7 @@ class Play extends Phaser.Scene {
     this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
-    this.spaceship = new Spaceship(this, game.config.width, game.config.height, 'spaceship', 0, false).setOrigin(0,0);
-
+    this.spaceship = new Spaceship(this, game.config.width, game.config.height + 10, 'spaceship', 0, false, this.player.x).setOrigin(0,0);
     this.spawnSpaceship = false;
 
     // Set up timer
@@ -95,6 +97,7 @@ class Play extends Phaser.Scene {
         if (willSpawn <= this.spaceship.spawnRate) {
           this.spaceship.spawn = true;
           this.spaceship.y =  Phaser.Math.RND.pick(this.spaceship.yCoordinates);
+          this.spaceship.x = this.player.x + game.config.width;
           this.spaceship.update();
         }
       }
@@ -109,31 +112,40 @@ class Play extends Phaser.Scene {
       align: 'left',
     }
     this.displayDistance = this.add.text(10, 10, this.distance + " M", distanceConfig);
-  }
+  
+    // Physics collider for spaceship
+    this.physics.add.overlap(this.player, this.spaceship, this.hitObject, null, this);
+}
 
   
   update() {
-    this.camera = this.cameras.main;
-    const speed = 6;
-    this.player.update();
+    if (!this.gameOver) {
+      this.player.update();
+      this.spaceship.playerX = this.player.x;
 
-    if (this.spaceship.spawn) {
-      this.spaceship.update();
-    }
+      if (this.spaceship.spawn) {
+        this.spaceship.update();
+      }
     
-    for(var i in this.platforms) {
-      this.platforms[i].update();
+      for(var i in this.platforms) {
+        this.platforms[i].update();
+      }
+
+      this.displayDistance.text = this.distance + " M";
+      this.displayDistance.x += this.speed;
+
+      // Parallax scrolling
+      this.camera.scrollX += this.speed;
+      this.player.x += this.speed;
+
+      for (let i = 0; i < this.backgrounds.length; i++) {
+        const bg = this.backgrounds[i];
+        bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
+      }
     }
+  }
 
-    this.displayDistance.text = this.distance + " M";
-
-    // Parallax scrolling
-    this.camera.scrollX += speed;
-    this.player.x += speed;
-
-    for (let i = 0; i < this.backgrounds.length; i++) {
-      const bg = this.backgrounds[i];
-      bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
-    }
+  hitObject() {
+    this.gameOver = true;
   }
 }

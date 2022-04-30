@@ -10,6 +10,8 @@ class Menu extends Phaser.Scene {
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+
+  //  game.physics.startSystem(Phaser.Physics.ARCADE);
   
     // style for menu options
     let menuStyle = {
