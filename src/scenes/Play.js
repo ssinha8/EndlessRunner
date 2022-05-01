@@ -26,6 +26,10 @@ class Play extends Phaser.Scene {
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
+    this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+
+
     // Parallax Scrolling Code:
     // Background Object Array
     this.backgrounds = [];
@@ -105,13 +109,13 @@ class Play extends Phaser.Scene {
 
   
     // Timer style
-    let distanceConfig = {
+    this.distanceConfig = {
       fontFamily: 'Courier',
       fontSize: '20px',
       color: '#FFFFFF',
       align: 'left',
     }
-    this.displayDistance = this.add.text(10, 10, this.distance + " M", distanceConfig);
+    this.displayDistance = this.add.text(10, 10, this.distance + " M", this.distanceConfig);
   
     // Physics collider for spaceship
     this.physics.add.overlap(this.player, this.spaceship, this.hitObject, null, this);
@@ -142,10 +146,22 @@ class Play extends Phaser.Scene {
         const bg = this.backgrounds[i];
         bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
       }
+    } else {
+      this.add.text(this.player.x + 380, 200, 'You went '.concat(this.distance-1).concat(' M!'), this.distanceConfig);
+      this.add.text(this.player.x + 250, 250, 'Press (R) to Restart or (M) for Menu', this.distanceConfig);
+
+      if (Phaser.Input.Keyboard.JustDown(this.keyR)) {
+        this.scene.restart();
+      }
+
+      if (Phaser.Input.Keyboard.JustDown(this.keyM)) {
+        this.scene.start('menuScene');
+      }
     }
   }
 
   hitObject() {
     this.gameOver = true;
+    this.clock.remove();
   }
 }
