@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
     this.load.image('stars', './assets/bg.png');
     this.load.image('hills', './assets/bg3.png');
     this.load.image('spikeyHills', './assets/bg2.png');
+    this.load.image('hole', './assets/hole.png')
 
   }
 
@@ -20,6 +21,9 @@ class Play extends Phaser.Scene {
   create() {
     this.gameOver = false;
     this.camera = this.cameras.main;
+    this.holeSpawnRate = 20;
+    this.holeSpawned = false;
+    this.checkpoints = [500, 1500, 2500, 3500, 5000];
 
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -68,6 +72,11 @@ class Play extends Phaser.Scene {
         .setScrollFactor(0)
 		});
 
+    // Hole
+    this.hole = this.physics.add.sprite(game.config.width, game.config.height+100, 'hole');
+    this.hole.scaleX = .15;
+    this.hole.scaleY = .27;
+
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
     let numPlatforms = 5
@@ -85,16 +94,21 @@ class Play extends Phaser.Scene {
 
     // Set up timer
     // I used addEvent because I couldn't figure out how to loop with delayedCall
-   this.distance = 0;
+    this.distance = 0;
 
     this.clock = this.time.addEvent({delay: 100, callback: () => {
       this.distance++;
+
       if (this.spaceship.checkpoints.includes(this.distance)) {
         this.spaceship.spawnRate += 5;
       }
+      if (this.checkpoints.includes(this.distance)) {
+        this.holeSpawnRate += 5;
+      }
     }, callbackScope: this, loop: true});
 
-    this.spaceshipCheck  = this.time.addEvent({delay: 3000, callback: () => {
+    // Spaceship check 
+    this.spaceshipCheck  = this.time.addEvent({delay: 5000, callback: () => {
       if (!this.spaceship.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
 
@@ -107,6 +121,17 @@ class Play extends Phaser.Scene {
       }
     }, callbackScope: this, loop: true});
 
+    // Hole check
+    this.holeSpawn = this.time.addEvent({delay: 2500, callback: () => {
+        let willSpawn = Phaser.Math.Between(0, 100);
+
+        if (willSpawn <= this.holeSpawnRate) {
+          this.hole.setPosition(this.player.x + game.config.width + 50, 470);
+          this.holeSpawned = true;
+        //  console.log('test');
+        }
+    }, callbackScope: this, loop: true});
+
   
     // Timer style
     this.distanceConfig = {
@@ -117,25 +142,42 @@ class Play extends Phaser.Scene {
     }
     this.displayDistance = this.add.text(10, 10, this.distance + " M", this.distanceConfig);
   
-    // Physics collider for spaceship
+    // Physics collider for spaceship and hole
     this.physics.add.overlap(this.player, this.spaceship, this.hitObject, null, this);
+    this.physics.add.overlap(this.player, this.hole, this.fallInHole, null, this);
 }
 
   
   update() {
+    if (this.player.y > game.config.height) {
+      this.hitObject();
+    } 
+
+    this.displayDistance.text = this.distance + " M";
+
     if (!this.gameOver) {
       this.player.update();
       this.spaceship.playerX = this.player.x;
 
+      // Spaceship
       if (this.spaceship.spawn) {
         this.spaceship.update();
       }
+
+      // Hole
+      if (this.holeSpawned) {
+        this.hole.x += 3;
+
+        if (this.hole.x < this.player.x - 20) {
+          this.holeSpawned = false;
+        }
+      }
     
+      // Platforms
       for(var i in this.platforms) {
         this.platforms[i].update();
       }
 
-      this.displayDistance.text = this.distance + " M";
       this.displayDistance.x += this.speed;
 
       // Parallax scrolling
@@ -146,8 +188,9 @@ class Play extends Phaser.Scene {
         const bg = this.backgrounds[i];
         bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
       }
+
     } else {
-      this.add.text(this.player.x + 380, 200, 'You went '.concat(this.distance-1).concat(' M!'), this.distanceConfig);
+      this.add.text(this.player.x + 380, 200, 'You went '.concat(this.distance).concat(' M!'), this.distanceConfig);
       this.add.text(this.player.x + 250, 250, 'Press (R) to Restart or (M) for Menu', this.distanceConfig);
 
       if (Phaser.Input.Keyboard.JustDown(this.keyR)) {
@@ -163,5 +206,11 @@ class Play extends Phaser.Scene {
   hitObject() {
     this.gameOver = true;
     this.clock.remove();
+    this.spaceshipCheck.remove();
+    this.holeSpawn.remove();
+  }
+
+  fallInHole() {
+    this.player.y += 18;
   }
 }
