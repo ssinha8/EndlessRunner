@@ -12,7 +12,7 @@ class rabbitPlayer extends Phaser.Physics.Arcade.Sprite{
     }
 
     setPlatFrontHeight(value){
-        this.platUnderFrontHeight = value
+        this.platUnderFrontHeight = value;
     }
 
     setPlatBackHeight(value){

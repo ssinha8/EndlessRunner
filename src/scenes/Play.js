@@ -37,7 +37,7 @@ class Play extends Phaser.Scene {
     // Parallax Scrolling Code:
     // Background Object Array
     this.backgrounds = [];
-    this.speed = 6;
+    this.speed = 0;
 
     // Star background
     this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars')
@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
 
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
-    let numPlatforms = 5
+    let numPlatforms = 9
     this.platforms = [numPlatforms];
     for(var i = 0; i < numPlatforms; i++){
       this.platforms[i] = new Platform(this, game.config.width + 128 * i, 350, 'platform', 0).setOrigin(0,0);
@@ -176,11 +176,19 @@ class Play extends Phaser.Scene {
       // Platforms
       for(var i in this.platforms) {
         this.platforms[i].update();
+        if (Math.abs(this.platforms[i].x - this.player.x) <= 2.5){
+          this.player.setPlatBackHeight(this.platforms[i].y);
+        }
+        else if (Math.abs(this.platforms[i].x - (this.player.x + this.player.width)) <= 2.5){
+          this.player.setPlatFrontHeight(this.platforms[i].x);
+        }
       }
 
       this.displayDistance.x += this.speed;
 
       // Parallax scrolling
+      //no wonder all of this went horribly wrong. i designed platform programming around a "treadmill" style
+      // while whoever programmed this wanted the camera to actually move to the right
       this.camera.scrollX += this.speed;
       this.player.x += this.speed;
 
