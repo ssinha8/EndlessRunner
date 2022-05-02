@@ -56,6 +56,7 @@ class rabbitPlayer extends Phaser.Physics.Arcade.Sprite{
         //next position would cause us to fall through the plat in back
         else if(((this.y + (this.vSpeed / 4)) < this.platUnderBackHeight) && (this.y > this.platUnderBackHeight) && this.vSpeed < 0){
             this.y = this.platUnderBackHeight; //snap us to that plat's height
+            this.vSpeed = 0;
             return true;
         }
         else{
