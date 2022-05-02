@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
   preload() {
     this.load.image('placeholder', './assets/placeholder.png');
     this.load.image('platform', './assets/platform2.png');
-    this.load.image('spaceship', './assets/spaceship_placeholder.png');
+    this.load.image('UFO1', './assets/spaceship_placeholder.png');
     this.load.image('player', './assets/spacebnnuy.png');
     this.load.image('groundmain', './assets/bg1.png');
     this.load.image('stars', './assets/bg.png');
@@ -91,9 +91,10 @@ class Play extends Phaser.Scene {
     this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
-    this.spaceship = new Spaceship(this, game.config.width, game.config.height + 10, 'spaceship', 0, false, this.player.x).setOrigin(0,0);
-    this.spawnSpaceship = false;
-
+    this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 30, this.player.x).setOrigin(0,0);
+    this.spawnUFO1 = false;
+    this.UFO2 = new Spaceship(this, game.config.width + 128, game.config.height + 10, 'UFO1', 0, false, 0, this.player.x).setOrigin(0,0);
+    this.spawnUFO2 = false;
     // Set up timer
     // I used addEvent because I couldn't figure out how to loop with delayedCall
     this.distance = 0;
@@ -101,8 +102,9 @@ class Play extends Phaser.Scene {
     this.clock = this.time.addEvent({delay: 100, callback: () => {
       this.distance++;
 
-      if (this.spaceship.checkpoints.includes(this.distance)) {
-        this.spaceship.spawnRate += 5;
+      if (this.UFO1.checkpoints.includes(this.distance)) {
+        this.UFO1.spawnRate += 5;
+        this.UFO2.spawnRate += 10
       }
       if (this.checkpoints.includes(this.distance)) {
         this.holeSpawnRate += 5;
@@ -112,14 +114,24 @@ class Play extends Phaser.Scene {
     // Spaceship check 
     // i don't know who implemented this but this is probably responsible for the memory leak
     this.spaceshipCheck  = this.time.addEvent({delay: 5000, callback: () => {
-      if (!this.spaceship.spawn) {
+      if (!this.UFO1.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
 
-        if (willSpawn <= this.spaceship.spawnRate) {
-          this.spaceship.spawn = true;
-          this.spaceship.y =  Phaser.Math.RND.pick(this.spaceship.yCoordinates);
-          this.spaceship.x = this.player.x + game.config.width;
-          this.spaceship.update();
+        if (willSpawn <= this.UFO1.spawnRate) {
+          this.UFO1.spawn = true;
+          this.UFO1.y =  Phaser.Math.RND.pick(this.UFO1.yCoordinates);
+          this.UFO1.x = this.player.x + game.config.width;
+          this.UFO1.update();
+        }
+      }
+      if (!this.UFO2.spawn) {
+        let willSpawn = Phaser.Math.Between(0, 100);
+
+        if (willSpawn <= this.UFO2.spawnRate) {
+          this.UFO2.spawn = true;
+          this.UFO2.y =  Phaser.Math.RND.pick(this.UFO1.yCoordinates);
+          this.UFO2.x = this.player.x + game.config.width + 128;
+          this.UFO2.update();
         }
       }
     }, callbackScope: this, loop: true});
@@ -145,8 +157,9 @@ class Play extends Phaser.Scene {
     }
     this.displayDistance = this.add.text(10, 10, this.distance + " M", this.distanceConfig);
   
-    // Physics collider for spaceship and hole
-    this.physics.add.overlap(this.player, this.spaceship, this.hitObject, null, this);
+    // Physics collider for UFO1 and hole
+    this.physics.add.overlap(this.player, this.UFO1, this.hitObject, null, this);
+    this.physics.add.overlap(this.player, this.UFO2, this.hitObject, null, this);
     this.physics.add.overlap(this.player, this.hole, this.fallInHole, null, this);
 }
 
@@ -160,11 +173,14 @@ class Play extends Phaser.Scene {
 
     if (!this.gameOver) {
       this.player.update();
-      this.spaceship.playerX = this.player.x;
+      //this.UFO1.playerX = this.player.x;
 
       // Spaceship
-      if (this.spaceship.spawn) {
-        this.spaceship.update();
+      if (this.UFO1.spawn) {
+        this.UFO1.update();
+      }
+      if (this.UFO2.spawn) {
+        this.UFO2.update();
       }
 
       // Hole
