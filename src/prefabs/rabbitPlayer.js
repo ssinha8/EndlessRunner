@@ -5,9 +5,9 @@ class rabbitPlayer extends Phaser.Physics.Arcade.Sprite{
         scene.physics.add.existing(this);
         this.terminalV = -24
         this.vSpeed = 0;
-        this.platUnderBackHeight = 400;
-        this.platUnderFrontHeight = 400;
-        this.groundUnderSelf = 400;
+        this.platUnderBackHeight = 999;
+        this.platUnderFrontHeight = 999;
+        this.groundUnderSelf = 440;
 
     }
 

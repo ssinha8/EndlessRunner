@@ -21,7 +21,7 @@ class Play extends Phaser.Scene {
   create() {
     this.gameOver = false;
     this.camera = this.cameras.main;
-    this.holeSpawnRate = 100;
+    this.holeSpawnRate = 20;
     this.holeSpawned = false;
     this.checkpoints = [500, 1500, 2500, 3500, 5000];
     this.FGmovespeed = 3;
@@ -128,8 +128,8 @@ class Play extends Phaser.Scene {
     this.holeSpawn = this.time.addEvent({delay: 2500, callback: () => {
         let willSpawn = Phaser.Math.Between(0, 100);
 
-        if (willSpawn <= this.holeSpawnRate) {
-          this.hole.setPosition(this.player.x + game.config.width + 50, 470);
+        if (willSpawn <= this.holeSpawnRate && !this.holeSpawned) {
+          this.hole.setPosition(this.player.x + game.config.width + 50, 380);
           this.holeSpawned = true;
         //  console.log('test');
         }
@@ -152,7 +152,7 @@ class Play extends Phaser.Scene {
 
   
   update() {
-    if (this.player.y > game.config.height) {
+    if (this.player.y > game.config.height + 64) {
       this.hitObject();
     } 
 
@@ -174,10 +174,10 @@ class Play extends Phaser.Scene {
           this.player.groundUnderSelf = 999;
         }
         else{
-          this.player.groundUnderSelf = 400
+          this.player.groundUnderSelf = 440
         }
 
-        if (this.hole.x < 0) {
+        if (this.hole.x < 0 - this.hole.width * this.hole.scaleX) {
           this.holeSpawned = false;
         }
       }

@@ -11,15 +11,19 @@ class Platform extends Phaser.GameObjects.Sprite{
 
         if (this.x <= -128) {
             this.reset();
+            
+            if(2 * Math.random() >= 1){
+                this.y = 999
+            }else{
+                this.y = 340
+            }
         }
+    }
+    setHeight(newH){
+        this.y = newH
     }
   
     reset(){
         this.x = 128 * 8;
-        if(2 * Math.random() >= 1){
-            this.y = 999
-        }else{
-            this.y = 900
-        }
     }
   }
