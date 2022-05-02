@@ -7,3 +7,4 @@ Add your name to the credits with what you've done!
 
 Programming:
 Anna Perlow
+Nicolette Antisdel
