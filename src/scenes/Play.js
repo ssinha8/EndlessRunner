@@ -167,9 +167,9 @@ class Play extends Phaser.Scene {
 
       // Hole
       if (this.holeSpawned) {
-        this.hole.x += 3;
+        this.hole.x -= 2.5;
 
-        if (this.hole.x < this.player.x - 20) {
+        if (this.hole.x < 0 - this.hole.width * this.hole.scaleX) {
           this.holeSpawned = false;
         }
       }

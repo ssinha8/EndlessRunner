@@ -16,5 +16,10 @@ class Platform extends Phaser.GameObjects.Sprite{
   
     reset(){
         this.x = 128 * 8;
+        if(2 * Math.random() >= 1){
+            this.y = 999
+        }else{
+            this.y = 300
+        }
     }
   }
