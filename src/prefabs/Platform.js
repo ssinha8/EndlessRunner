@@ -1,8 +1,8 @@
 class Platform extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, frame){
+    constructor(scene, x, y, texture, frame, speed){
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
-        this.moveSpeed = 2.5;
+        this.moveSpeed = speed;
     }
   
     update(){
@@ -19,7 +19,7 @@ class Platform extends Phaser.GameObjects.Sprite{
         if(2 * Math.random() >= 1){
             this.y = 999
         }else{
-            this.y = 300
+            this.y = 900
         }
     }
   }

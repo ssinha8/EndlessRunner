@@ -21,9 +21,10 @@ class Play extends Phaser.Scene {
   create() {
     this.gameOver = false;
     this.camera = this.cameras.main;
-    this.holeSpawnRate = 20;
+    this.holeSpawnRate = 100;
     this.holeSpawned = false;
     this.checkpoints = [500, 1500, 2500, 3500, 5000];
+    this.FGmovespeed = 3;
 
     keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -76,13 +77,14 @@ class Play extends Phaser.Scene {
     this.hole = this.physics.add.sprite(game.config.width, game.config.height+100, 'hole');
     this.hole.scaleX = .15;
     this.hole.scaleY = .27;
+    this.hole.setOrigin(0, 0)
 
     //TODO: adjust values of x and y for better gameplay
     //editing this to use an array.
     let numPlatforms = 9
     this.platforms = [numPlatforms];
     for(var i = 0; i < numPlatforms; i++){
-      this.platforms[i] = new Platform(this, game.config.width + 128 * i, 350, 'platform', 0).setOrigin(0,0);
+      this.platforms[i] = new Platform(this, game.config.width + 128 * i, 350, 'platform', 0, this.FGmovespeed).setOrigin(0,0);
       this.platforms[i].setScale(128/1299);
     }
 
@@ -167,9 +169,15 @@ class Play extends Phaser.Scene {
 
       // Hole
       if (this.holeSpawned) {
-        this.hole.x -= 2.5;
+        this.hole.x -= this.FGmovespeed;
+        if ((this.hole.x <= this.player.x) && (this.hole.x + (this.hole.width * this.hole.scaleX) > this.player.x + 64)){
+          this.player.groundUnderSelf = 999;
+        }
+        else{
+          this.player.groundUnderSelf = 400
+        }
 
-        if (this.hole.x < 0 - this.hole.width * this.hole.scaleX) {
+        if (this.hole.x < 0) {
           this.holeSpawned = false;
         }
       }
@@ -177,10 +185,10 @@ class Play extends Phaser.Scene {
       // Platforms
       for(var i in this.platforms) {
         this.platforms[i].update();
-        if (Math.abs(this.platforms[i].x - this.player.x) <= 2.5){
+        if (Math.abs(this.platforms[i].x - this.player.x) <= this.FGmovespeed){
           this.player.setPlatBackHeight(this.platforms[i].y);
         }
-        else if (Math.abs(this.platforms[i].x - (this.player.x + 64)) <= 2.5){
+        else if (Math.abs(this.platforms[i].x - (this.player.x + 64)) <= this.FGmovespeed){
           this.player.setPlatFrontHeight(this.platforms[i].y);
         }
       }
@@ -220,6 +228,6 @@ class Play extends Phaser.Scene {
   }
 
   fallInHole() {
-    this.player.y += 18;
+    //this.player.y += 18;
   }
 }
