@@ -179,8 +179,8 @@ class Play extends Phaser.Scene {
         if (Math.abs(this.platforms[i].x - this.player.x) <= 2.5){
           this.player.setPlatBackHeight(this.platforms[i].y);
         }
-        else if (Math.abs(this.platforms[i].x - (this.player.x + this.player.width)) <= 2.5){
-          this.player.setPlatFrontHeight(this.platforms[i].x);
+        else if (Math.abs(this.platforms[i].x - (this.player.x + 64)) <= 2.5){
+          this.player.setPlatFrontHeight(this.platforms[i].y);
         }
       }
 
