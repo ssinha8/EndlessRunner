@@ -37,7 +37,7 @@ class Play extends Phaser.Scene {
     // Parallax Scrolling Code:
     // Background Object Array
     this.backgrounds = [];
-    this.speed = 0;
+    this.bgSpeed = -6;
 
     // Star background
     this.starBackground = this.add.tileSprite(0, 0, 0, 0, 'stars')
@@ -108,6 +108,7 @@ class Play extends Phaser.Scene {
     }, callbackScope: this, loop: true});
 
     // Spaceship check 
+    // i don't know who implemented this but this is probably responsible for the memory leak
     this.spaceshipCheck  = this.time.addEvent({delay: 5000, callback: () => {
       if (!this.spaceship.spawn) {
         let willSpawn = Phaser.Math.Between(0, 100);
@@ -184,17 +185,17 @@ class Play extends Phaser.Scene {
         }
       }
 
-      this.displayDistance.x += this.speed;
 
       // Parallax scrolling
-      //no wonder all of this went horribly wrong. i designed platform programming around a "treadmill" style
-      // while whoever programmed this wanted the camera to actually move to the right
-      this.camera.scrollX += this.speed;
-      this.player.x += this.speed;
+      // no wonder all of this went horribly wrong. i designed platform programming around a "treadmill" style
+      // while whoever programmed this wanted the camera to actually move to the right - Anna
+      //this.camera.scrollX += this.speed;
+      //this.player.x += this.speed;
+      //this.displayDistance.x += this.speed;
 
       for (let i = 0; i < this.backgrounds.length; i++) {
         const bg = this.backgrounds[i];
-        bg.sprite.tilePositionX = this.cameras.main.scrollX * bg.ratioX
+        bg.sprite.tilePositionX -= this.bgSpeed * bg.ratioX
       }
 
     } else {
