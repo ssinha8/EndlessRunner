@@ -3,6 +3,7 @@ class Platform extends Phaser.GameObjects.Sprite{
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
         this.moveSpeed = speed;
+        this.spawnrate = 3;
     }
   
     update(){
@@ -12,7 +13,7 @@ class Platform extends Phaser.GameObjects.Sprite{
         if (this.x <= -128) {
             this.reset();
             
-            if(4 * Math.random() >= 3){
+            if(4 * Math.random() >= this.spawnrate){
                 this.y = 999
             }else{
                 var heightVARI

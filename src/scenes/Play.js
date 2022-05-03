@@ -95,7 +95,7 @@ class Play extends Phaser.Scene {
     this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
-    this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 30, this.player.x).setOrigin(0,0);
+    this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 50, this.player.x).setOrigin(0,0);
     this.spawnUFO1 = false;
     this.UFO2 = new Spaceship(this, game.config.width + 128, game.config.height + 10, 'UFO1', 0, false, 0, this.player.x).setOrigin(0,0);
     this.spawnUFO2 = false;
@@ -108,7 +108,7 @@ class Play extends Phaser.Scene {
 
       if (this.UFO1.checkpoints.includes(this.distance)) {
         this.UFO1.spawnRate += 5;
-        this.UFO2.spawnRate += 10
+        this.UFO2.spawnRate += 15;
       }
       if (this.checkpoints.includes(this.distance)) {
         this.holeSpawnRate += 5;
@@ -147,6 +147,9 @@ class Play extends Phaser.Scene {
         if (willSpawn <= this.holeSpawnRate && !this.holeSpawned) {
           this.hole.setPosition(this.player.x + game.config.width + 50, 380);
           this.holeSpawned = true;
+          for (var i in this.platforms){
+            this.platforms[i].spawnrate = 4;
+          }
         //  console.log('test');
         }
     }, callbackScope: this, loop: true});
@@ -199,6 +202,9 @@ class Play extends Phaser.Scene {
 
         if (this.hole.x < 0 - this.hole.width * this.hole.scaleX) {
           this.holeSpawned = false;
+          for(var i in this.platforms){
+            this.platforms[i].spawnrate = 3;
+          }
         }
       }
     
