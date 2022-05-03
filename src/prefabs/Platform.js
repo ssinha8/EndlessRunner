@@ -12,10 +12,13 @@ class Platform extends Phaser.GameObjects.Sprite{
         if (this.x <= -128) {
             this.reset();
             
-            if(2 * Math.random() >= 1){
+            if(4 * Math.random() >= 3){
                 this.y = 999
             }else{
-                this.y = 340
+                var heightVARI
+                heightVARI = 10*Math.random();
+                heightVARI = heightVARI - (heightVARI % 1);
+                this.y = (400 - 10 * heightVARI);
             }
         }
     }

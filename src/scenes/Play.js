@@ -30,7 +30,7 @@ class Play extends Phaser.Scene {
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-
+    var platHeightVari;
     this.keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     this.keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
 
@@ -84,7 +84,11 @@ class Play extends Phaser.Scene {
     let numPlatforms = 9
     this.platforms = [numPlatforms];
     for(var i = 0; i < numPlatforms; i++){
-      this.platforms[i] = new Platform(this, game.config.width + 128 * i, 350, 'platform', 0, this.FGmovespeed).setOrigin(0,0);
+
+      platHeightVari = 10*Math.random();
+      platHeightVari = platHeightVari - (platHeightVari % 1);
+      platHeightVari = (400 - 10 * platHeightVari);
+      this.platforms[i] = new Platform(this, game.config.width + 128 * i, platHeightVari, 'platform', 0, this.FGmovespeed).setOrigin(0,0);
       this.platforms[i].setScale(128/1299);
     }
 
