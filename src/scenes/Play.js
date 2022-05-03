@@ -134,7 +134,7 @@ class Play extends Phaser.Scene {
         if (willSpawn <= this.UFO2.spawnRate) {
           this.UFO2.spawn = true;
           this.UFO2.y =  Phaser.Math.RND.pick(this.UFO1.yCoordinates);
-          this.UFO2.x = this.player.x + game.config.width + 128;
+          this.UFO2.x = this.player.x + game.config.width + 400;
           this.UFO2.update();
         }
       }
