@@ -41,25 +41,32 @@ class rabbitPlayer extends Phaser.Physics.Arcade.Sprite{
     }
 
     checkAndSnapPlatforms() {
+        //ignore plaform collision if player is holding down arrow
+        if(!keyDOWN.isDown){
+
                 //if we're already on a plat
-        if(this.y == this.platUnderBackHeight || this.y == this.platUnderFrontHeight){
-            return true;
-        }
-        //if we aren't standing on a plat just yet, but our projected
-        //next position would cause us to fall through the plat in front
-        else if(((this.y + (this.vSpeed / 4)) < this.platUnderFrontHeight) && (this.y > this.platUnderFrontHeight) && this.vSpeed < 0){
-            this.y = this.platUnderFrontHeight; //snap us to that plat's height
-            this.vSpeed = 0;
-            return true;
-        }
-        //if we aren't standing on a plat just yet, but our projected
-        //next position would cause us to fall through the plat in back
-        else if(((this.y + (this.vSpeed / 4)) < this.platUnderBackHeight) && (this.y > this.platUnderBackHeight) && this.vSpeed < 0){
-            this.y = this.platUnderBackHeight; //snap us to that plat's height
-            this.vSpeed = 0;
-            return true;
-        }
-        else{
+            if(this.y == this.platUnderBackHeight || this.y == this.platUnderFrontHeight){
+                return true;
+            }
+
+            //if we aren't standing on a plat just yet, but our projected
+            //next position would cause us to fall through the plat in front
+            else if(((this.y + (this.vSpeed / 4)) < this.platUnderFrontHeight) && (this.y > this.platUnderFrontHeight) && this.vSpeed < 0){
+                this.y = this.platUnderFrontHeight; //snap us to that plat's height
+                this.vSpeed = 0;
+                return true;
+            }
+            //if we aren't standing on a plat just yet, but our projected
+            //next position would cause us to fall through the plat in back
+            else if(((this.y + (this.vSpeed / 4)) < this.platUnderBackHeight) && (this.y > this.platUnderBackHeight) && this.vSpeed < 0){
+                this.y = this.platUnderBackHeight; //snap us to that plat's height
+                this.vSpeed = 0;
+                return true;
+            }else{
+                return false;
+            }
+
+        }else{
             return false;
         }
     }
