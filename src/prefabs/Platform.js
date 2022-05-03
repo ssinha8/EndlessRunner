@@ -18,7 +18,7 @@ class Platform extends Phaser.GameObjects.Sprite{
                 var heightVARI
                 heightVARI = 10*Math.random();
                 heightVARI = heightVARI - (heightVARI % 1);
-                this.y = (400 - 10 * heightVARI);
+                this.y = (400 - 20 * heightVARI);
             }
         }
     }

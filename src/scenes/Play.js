@@ -87,7 +87,7 @@ class Play extends Phaser.Scene {
 
       platHeightVari = 10*Math.random();
       platHeightVari = platHeightVari - (platHeightVari % 1);
-      platHeightVari = (400 - 10 * platHeightVari);
+      platHeightVari = (400 - 20 * platHeightVari);
       this.platforms[i] = new Platform(this, game.config.width + 128 * i, platHeightVari, 'platform', 0, this.FGmovespeed).setOrigin(0,0);
       this.platforms[i].setScale(128/1299);
     }
