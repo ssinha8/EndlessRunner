@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene {
     keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+    this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
   //  game.physics.startSystem(Phaser.Physics.ARCADE);
   
@@ -21,7 +22,7 @@ class Menu extends Phaser.Scene {
       align: 'center',
     }
 
-    const play = this.add.text((game.config.width/2)-60, 150, "Play", menuStyle);
+    const play = this.add.text((game.config.width/2)-80, 230, "Play (P)", menuStyle);
     play.setInteractive();
     play.on('pointerdown', () => {this.scene.start('playScene')});
 
@@ -29,21 +30,25 @@ class Menu extends Phaser.Scene {
   //  shop.setInteractive();
    // shop.on('pointerdown', () => {this.scene.start('shopScene')});
 
-    const highScores = this.add.text((game.config.width/2)-60, 250, "High Scores", menuStyle);
-    highScores.setInteractive();
+ //   const highScores = this.add.text((game.config.width/2)-60, 250, "High Scores", menuStyle);
+ //   highScores.setInteractive();
 
-    const options = this.add.text((game.config.width/2)-60, 300, "Options", menuStyle);
-    options.setInteractive();
+ //   const options = this.add.text((game.config.width/2)-60, 300, "Options", menuStyle);
+  //  options.setInteractive();
 
-    const quit = this.add.text((game.config.width/2)-60, 350, "Quit Game", menuStyle);
-    quit.setInteractive();
+  //  const quit = this.add.text((game.config.width/2)-60, 260, "Quit Game", menuStyle);
+ //   quit.setInteractive();
+ //   quit.on('pointerdown', () => {game.destroy();});
 
 
   }
 
 
   update() {
+ //   this.scene.start('playScene');
+  if (Phaser.Input.Keyboard.JustDown(this.keyP)) {
     this.scene.start('playScene');
+  }
 
   }
 }
