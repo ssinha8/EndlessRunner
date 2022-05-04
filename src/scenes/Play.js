@@ -98,7 +98,7 @@ class Play extends Phaser.Scene {
       this.platforms[i].setScale(128/1299);
     }
 
-    this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
+    this.player = new rabbitPlayer(this, 40, 440, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
     this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 50, this.player.x).setOrigin(0,1);
