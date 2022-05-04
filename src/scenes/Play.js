@@ -7,7 +7,13 @@ class Play extends Phaser.Scene {
   preload() {
     this.load.image('placeholder', './assets/placeholder.png');
     this.load.image('platform', './assets/platform2.png');
-    this.load.image('UFO1', './assets/spaceship_placeholder.png');
+    this.load.image('UFO1', './assets/spaceship1.png');
+    this.load.image('UFO2', './assets/spaceship2.png');
+    this.load.image('UFO3', './assets/spaceship3.png');
+    this.load.image('UFO4', './assets/spaceship4.png');
+    this.load.image('UFO5', './assets/spaceship5.png');
+    this.load.image('UFO6', './assets/spaceship6.png');
+    this.load.image('UFO7', './assets/spaceship7.png');
     this.load.image('player', './assets/spacebnnuy.png');
     this.load.image('groundmain', './assets/bg1.png');
     this.load.image('stars', './assets/bg.png');
