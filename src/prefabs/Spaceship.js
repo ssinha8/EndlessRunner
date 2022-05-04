@@ -9,13 +9,15 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite{
       this.checkpoints = [200, 400, 650, 1000, 1500];
       this.direction = "left";
       this.playerX = playerX;
+      this.anmFrame = 0;
   }
 
   update(){
 
  //   console.log(this.x);
     if (this.spawn) {
-
+        this.anmFrame += 1;
+        this.anmFrame = this.anmFrame % 20;
         //tweaking UFO mechanics, this block commented out if we want to revert
         /*
         if (this.x > this.playerX - 40 && this.direction == 'left') {

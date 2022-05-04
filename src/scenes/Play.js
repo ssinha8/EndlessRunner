@@ -101,10 +101,12 @@ class Play extends Phaser.Scene {
     this.player = new rabbitPlayer(this, 40, 40, 'player', 0).setOrigin(0,1);
     this.player.setScale(64/685);
     this.player.flipX = true;
-    this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 50, this.player.x).setOrigin(0,0);
+    this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 50, this.player.x).setOrigin(0,1);
     this.spawnUFO1 = false;
+    this.UFO1.setScale(64/720);
     this.UFO2 = new Spaceship(this, game.config.width + 128, game.config.height + 10, 'UFO1', 0, false, 0, this.player.x).setOrigin(0,0);
     this.spawnUFO2 = false;
+    this.UFO2.setScale(64/720);
     // Set up timer
     // I used addEvent because I couldn't figure out how to loop with delayedCall
     this.distance = 0;
@@ -190,9 +192,65 @@ class Play extends Phaser.Scene {
 
       // Spaceship
       if (this.UFO1.spawn) {
+        switch(this.UFO1.anmFrame){
+          case 0:
+          case 1:
+            this.UFO1.setTexture('UFO2');
+            break;
+          case 2:
+          case 3:
+            this.UFO1.setTexture('UFO3');
+            break;
+          case 4:
+          case 5:
+            this.UFO1.setTexture('UFO4');
+            break;
+          case 6:
+          case 7:
+            this.UFO1.setTexture('UFO5');
+            break;
+          case 8:
+          case 9:
+            this.UFO1.setTexture('UFO6');
+            break;
+          case 10:
+          case 11:
+            this.UFO1.setTexture('UFO7');
+            break;
+          default:
+            this.UFO1.setTexture('UFO1');
+        } 
         this.UFO1.update();
       }
       if (this.UFO2.spawn) {
+        switch(this.UFO2.anmFrame){
+          case 0:
+          case 1:
+            this.UFO2.setTexture('UFO2');
+            break;
+          case 2:
+          case 3:
+            this.UFO2.setTexture('UFO3');
+            break;
+          case 4:
+          case 5:
+            this.UFO2.setTexture('UFO4');
+            break;
+          case 6:
+          case 7:
+            this.UFO2.setTexture('UFO5');
+            break;
+          case 8:
+          case 9:
+            this.UFO2.setTexture('UFO6');
+            break;
+          case 10:
+          case 11:
+            this.UFO2.setTexture('UFO7');
+            break;
+          default:
+            this.UFO2.setTexture('UFO1');
+        } 
         this.UFO2.update();
       }
 
