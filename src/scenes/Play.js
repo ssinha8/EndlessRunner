@@ -104,7 +104,7 @@ class Play extends Phaser.Scene {
     this.UFO1 = new Spaceship(this, game.config.width, game.config.height + 10, 'UFO1', 0, false, 50, this.player.x).setOrigin(0,1);
     this.spawnUFO1 = false;
     this.UFO1.setScale(48/720);
-    this.UFO2 = new Spaceship(this, game.config.width + 128, game.config.height + 10, 'UFO1', 0, false, 0, this.player.x).setOrigin(0,0);
+    this.UFO2 = new Spaceship(this, game.config.width + 128, game.config.height + 10, 'UFO1', 0, false, 0, this.player.x).setOrigin(0,1);
     this.spawnUFO2 = false;
     this.UFO2.setScale(48/720);
     // Set up timer
