@@ -5,7 +5,7 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite{
       scene.physics.add.existing(this);
       this.spawn = spawn;
       this.spawnRate = spawnRate;
-      this.yCoordinates = [150, 220, 320, 370, 420];
+      this.yCoordinates = [150, 230, 320, 370, 420];
       this.checkpoints = [200, 400, 650, 1000, 1500];
       this.direction = "left";
       this.playerX = playerX;
