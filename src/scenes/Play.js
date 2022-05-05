@@ -293,7 +293,11 @@ class Play extends Phaser.Scene {
 
       for (let i = 0; i < this.backgrounds.length; i++) {
         const bg = this.backgrounds[i];
-        bg.sprite.tilePositionX -= this.bgSpeed * bg.ratioX
+        if (i == 2){
+          bg.sprite.tilePositionX += 3 * 334/140;
+        } else {
+          bg.sprite.tilePositionX -= this.bgSpeed * bg.ratioX
+        }
       }
 
     } else {
